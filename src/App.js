@@ -1,25 +1,35 @@
-import logo from './logo.svg';
+import React from 'react';
+import Launch from './components/launchData/launch';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './App.css';
+import {Routes, Route} from 'react-router-dom';
+import Landing from './components/launchData/Landing';
+ 
 
-function App() {
+// function App() {
+//   return (
+//     <>
+//     <Launch/>      
+//     </>
+//   );
+// }
+
+// export default App;
+
+const App = () => {
+  
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
 
-export default App;
+    <Routes>
+      <Route exact path="/" element={<Landing/>} />
+      <Route path='/launch' element={<Launch/>}/>
+      {/* <Route element={Landing}></Route> */}
+    </Routes>
+
+  );
+};
+
+  export default App;
+
+  

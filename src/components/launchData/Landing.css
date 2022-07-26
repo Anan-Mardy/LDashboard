@@ -1,0 +1,17 @@
+#landingPage{
+    background-color: black;
+    width: 98%;
+    display: flex;
+    flex-direction: column;
+    margin:auto;
+    padding-top:10px;
+    padding-bottom: 20px;
+}
+
+.fwd{
+    font-size:3rem !important;
+    color:white;
+}
+.fwd:hover{
+    color:red;
+}

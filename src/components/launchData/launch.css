@@ -1,0 +1,128 @@
+*{
+    margin: 0;
+    padding: 0%;
+    box-sizing: border-box;
+    font-family: "Montserrat",sans-serif;
+}
+
+.MuiDataGrid-columnSeparator {
+    opacity: 0 !important;
+    color: none;
+    border: none;
+  }
+  .MuiDataGrid-root .MuiDataGrid-cell {
+    border-bottom: none !important;
+    /* color: white; */
+  }
+  .MuiDataGrid-root .MuiDataGrid-colCellWrapper {
+    background: #f4f5f7 !important ;
+    border: none !important;
+  }
+  .MuiDataGrid-cell{
+    border: none;
+  }
+
+.container-fluid{
+    width: 87%;
+    margin:auto;
+    height: 100px;
+}
+
+.top-section{
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.top-section-image{
+    height: 5rem;
+    width: 5rem;
+    margin-right: 2rem;
+}
+.top-p{
+    align-self:baseline;
+    margin-left: auto;
+}
+
+.flight-row{
+    display:flex;
+    flex-direction: row;
+    /* justify-self: unset; */
+    justify-content:last baseline;
+    /* margin:auto; */
+    height: 1rem;
+    margin-left:20px;
+    margin-top:0px;
+    margin-bottom: 0px;
+}
+.left{
+    align-items: left;
+    margin-right:auto;
+}
+.right{
+    margin-right: 10px;
+    margin-left:auto;
+}
+
+.div-loading{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    margin: auto;
+}
+
+.ytubee{
+    /* font-size: 4rem !important; */
+    color: red;
+    font-size:4rem !important;
+}
+.ytubee:hover{
+    color:black;
+}
+
+#Success{
+    background:#def7ec;
+    color:#03543f;
+    font-weight: 600;
+    border-radius: 200px;
+    text-align: center;
+    padding: 0.4rem;
+
+}
+
+#Failed{
+    background: #fde2e1;
+    color: #981b1c;
+    font-weight: 600;
+    border-radius: 30px;
+    padding: 10px;
+    margin-top: 20px;    
+}
+
+#Upcoming {
+    background: #fef3c7;
+    color: #92400f;
+    font-weight: 600;
+    border-radius: 200px;
+    /* text-align: center; */
+    padding: 0.4rem;
+
+}
+
+.customColumn {
+    background: #f4f5f7;
+    border: none;
+    border-color: black;
+  }
+.customColumn:hover{
+    /* background-color: #03543f; */
+    border: none;
+    border-color: transparent;
+}
+
+.datagrid{
+    background-color: rgb(251, 241, 241);
+}
+

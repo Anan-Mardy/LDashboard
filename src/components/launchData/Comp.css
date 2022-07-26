@@ -1,0 +1,47 @@
+#upMis{
+    background-color: rgb(23, 21, 21);
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: auto;
+    margin-top: 20px;
+    color: white;
+    border-radius: 10px;
+}
+.oneblock{
+    display: flex;
+    flex-direction: row;
+}
+#imgcon{
+    height: 18rem;
+    width:  25rem;
+    margin-right: 8rem;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    margin-left: 20px;
+}
+
+.statHeading{
+    font-size: 1rem;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color:rgb(71, 71, 72);
+}
+.statFigure{
+    color:rgb(208, 209, 210);
+
+}
+.ytube{
+    font-size: 2rem !important;
+    color:red;
+    margin-right: 10px;
+}
+.but{
+    margin-top: 1rem !important;
+    color:black !important;
+    font-weight: bold !important;
+    background-color: white !important;
+}
+.but:hover{
+    color:red !important;
+}
