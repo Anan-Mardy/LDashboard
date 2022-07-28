@@ -3,29 +3,62 @@
     padding: 0%;
     box-sizing: border-box;
     font-family: "Montserrat",sans-serif;
+    /* background-color: black; */
+}
+
+.newbody{
+    background-image: url(./spacex.jpg);
+    background-size:cover;
+    min-height: 100%;
+    min-width: none;
+    /* background-position: center; */
 }
 
 .MuiDataGrid-columnSeparator {
     opacity: 0 !important;
     color: none;
     border: none;
+    background-color:white;
+    color:white;
+
   }
   .MuiDataGrid-root .MuiDataGrid-cell {
-    border-bottom: none !important;
-    /* color: white; */
+    /* border-bottom: none !important; */
+    color: white;
   }
   .MuiDataGrid-root .MuiDataGrid-colCellWrapper {
     background: #f4f5f7 !important ;
     border: none !important;
+    color:white;
+
   }
   .MuiDataGrid-cell{
     border: none;
+    color:white;
+    text-decoration: solid;
+    font-size: large;
   }
 
-.container-fluid{
+.container-ji{
     width: 87%;
     margin:auto;
-    height: 100px;
+    padding-bottom: 2rem;
+    min-height:70vh;  
+    
+    /* height: 100px; */
+    /* background-color: black; */
+}
+
+.addons{
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    font-size:larger;
+    margin-bottom: 1rem;
+    margin-top:1.5rem;
+    width:50%;
+    justify-content: center;
+    /* grid-row: auto; */
 }
 
 .top-section{
@@ -44,6 +77,14 @@
 .top-p{
     align-self:baseline;
     margin-left: auto;
+}
+
+.main-heading{
+    display:flex;
+    flex-direction: row;
+    padding-top: 1rem;
+    padding-bottom: 0.9rem;
+    /* margin-bottom: 4rem; */
 }
 
 .flight-row{
@@ -123,6 +164,50 @@
 }
 
 .datagrid{
-    background-color: rgb(251, 241, 241);
+    /* background-color: rgb(43, 39, 39); */
+    background-color: none;
+    background-color: rgba(0.3, 0.3, 0.3, 0.7);
+
 }
+
+.MuiToolbar-root{
+    color:white;
+}
+
+.DateBox{
+    background:transparent;
+    border:none;
+    color:white;
+    /* margin-right: auto;
+    padding:auto;
+    margin-left:10rem; */
+    margin:auto;
+
+}
+
+.DateBox:hover{
+    cursor: pointer;
+    border: none;
+}
+
+
+.SelectBox{
+    background: transparent;
+    border-color: white;
+    color:white;
+    /* align-items: left;
+    margin-left: auto;
+    margin-right: 20rem; */
+    margin: auto;
+    padding:2px;
+    border-width: 2.5px;
+    border-radius: 5px;
+}
+
+.options{
+    color:black;
+}
+
+
+
 

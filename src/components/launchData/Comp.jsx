@@ -1,18 +1,12 @@
 import React,{useState,useEffect} from "react";
 import './Comp.css';
-import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import axios from 'axios';
-import Landing from "./Landing";
-
 
 const [name,rocket,data,location]=["FalconSat","Falcon 1","2006-03-24","Kwajalein Atoll, Marshall Islands"];
 
 
 const Comp=()=>{
-
-
     
     return (
         <>
@@ -67,7 +61,7 @@ const Comp=()=>{
                             src="https://www.trbimg.com/img-5a7a877e/turbine/ct-spacex-falcon-heavy-rocket-launch-20180206"
                             id="missionImage"
                             alt="Falcon 9 launch"
-                            id="imgcon"
+                            className="imgcon"
                         />
                     </div>
             </td>

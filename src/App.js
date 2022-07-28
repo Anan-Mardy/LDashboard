@@ -5,17 +5,6 @@ import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './App.css';
 import {Routes, Route} from 'react-router-dom';
 import Landing from './components/launchData/Landing';
- 
-
-// function App() {
-//   return (
-//     <>
-//     <Launch/>      
-//     </>
-//   );
-// }
-
-// export default App;
 
 const App = () => {
   
@@ -24,7 +13,6 @@ const App = () => {
     <Routes>
       <Route exact path="/" element={<Landing/>} />
       <Route path='/launch' element={<Launch/>}/>
-      {/* <Route element={Landing}></Route> */}
     </Routes>
 
   );

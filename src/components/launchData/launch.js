@@ -4,19 +4,29 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min';
 import './launch.css';
 import { DataGrid } from '@mui/x-data-grid';
+import { Link } from "react-router-dom";
+
 
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-// import LoadingContainer from '../loadingAnimation/Animation';
-// import LoadingContainer from '../loadingAnimation/Animation';
-// import { SolarSystemLoading } from "react-loadingg";
+
+import spaceXLogo from "../help/spacex.svg";
+import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+
 import ScaleLoader from "react-spinners/ScaleLoader";
 import YouTubeIcon from '@mui/icons-material/YouTube';
 import ReadMoreIcon from '@mui/icons-material/ReadMore';
 import DownloadIcon from '@mui/icons-material/Download';
+
+//dateRange
+//npm install react-date-range && npm install date-fns;
+import { DateRange } from "react-date-range";
+import format from "date-fns/format";
+import 'react-date-range/dist/styles.css'
+import 'react-date-range/dist/theme/default.css'
 
 const styles = {
   position: 'absolute',
@@ -74,12 +84,6 @@ const columns = [
       sortable: false,
       headerClassName: "customColumn launch-status",
       headerAlign: "left",
-    //   cellClassName: (params) =>
-    //     clsx("super-app", {
-    //       Success: params.value === "Success",
-    //       Failure: params.value === "Failed",
-    //       Upcoming: params.value === "Upcoming",
-    //     }),
     },
     {
       field: "rocket",
@@ -94,27 +98,94 @@ const columns = [
 const Launch=()=>{
 
     const [Data,setData]=useState([]);
-    // const [Data1,setData1]=useState([]);
-    // const[Data2,setData2]=useState([]);
+    
+    const [slt,setSlt]=useState("0");  //filter
+
+    const [range,setRange]=useState([
+      {
+          startDate: new Date('2006-03-01T03:24:00'),
+          endDate: new Date(),
+          key:'selection'
+      }
+  ]); 
+
 
     useEffect(()=>{
         getData();
     },[])
 
     const getData=async()=>{
-        const res= await axios.get(`https://api.spacexdata.com/v4/launches`) ;
-        // const res1=await axios.get(`https://api.spacexdata.com/v4/launchpads`);
-        // const res2=await axios.get(`https://api.spacexdata.com/v4/rockets`);
-        
+        const res= await axios.get(`https://api.spacexdata.com/v4/launches`) ;        
         setData(res.data);
-        
-       
-        // console.log(res.data);
-
     }
 
-    //////////////////////////////////////////
-    const rows = Data.map((item, index) => {
+    const [Data0,setData0]=useState(Data);
+    const Data1=Data.filter(checkup);
+    const Data2= Data.filter(checksus);
+    const Data3= Data.filter(checkfail);
+
+    function checkdate(item){
+      // return true;
+      var d1 = Date.parse(item.date_utc.slice(0,10));
+      var d2 = Date.parse(format(range[0].endDate,"yyyy-MM-dd"));
+      var d3 = Date.parse(format(range[0].startDate,"yyyy-MM-dd"));
+      
+      return d1<d2 && d1>d3;
+    }
+    function checksus(item){
+        return item.success;
+    }
+    function checkfail(item){
+        return !item.success && !item.upcoming;
+    }
+    function checkup(item){
+        return item.upcoming;
+    }
+
+    //The commented rows are initially when filter was not available
+
+    // const rows = Data.map((item, index) => {
+    //     let data = {
+    //       id: index + 1,
+    //       launched: item.date_utc.slice(0,10),
+    //       location: (
+    //         item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='83'
+    //         ?"VAFB SLC 3W, California":
+    //         item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='84'
+    //         ?"CCSFS SLC 40, Florida":
+    //         item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='85'
+    //         ?"STLS, Texas":
+    //         item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='86'
+    //         ?"Kwajalein Atoll, Marshall Islands":
+    //         item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='87'
+    //         ?"VAFB SLC 4E, California":
+    //         item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='88'
+    //         ?"KSC LC 39A, Florida":"No-Data"
+    //     ),
+    //       mission: item.name,
+    //       orbit: item.name,
+    //       launchstatus: item.upcoming
+    //         ? "Upcoming"
+    //         : item.success
+    //         ? "Success"
+    //         : "Failed",
+    //       rocket: (
+    //         item.rocket.slice(item.rocket.length-1,item.rocket.length)==='b'
+    //         ?"Falcon 1":
+    //         item.rocket.slice(item.rocket.length-1,item.rocket.length)==='c'
+    //         ?"Falcon 9":
+    //         item.rocket.slice(item.rocket.length-1,item.rocket.length)==='d'
+    //         ?"Falcon Heavy":
+    //         item.rocket.slice(item.rocket.length-1,item.rocket.length)==='e'
+    //         ?"Starship":"No-Data"
+    //       ),
+    //     };
+    //     return data;
+    //   });
+
+
+
+      const rows = ((slt==="0")? Data.map((item, index) => {
         let data = {
           id: index + 1,
           launched: item.date_utc.slice(0,10),
@@ -151,7 +222,156 @@ const Launch=()=>{
           ),
         };
         return data;
-      });
+      }):(slt==="4")? Data0.map((item, index) => {
+        let data = {
+          id: index + 1,
+          launched: item.date_utc.slice(0,10),
+          location: (
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='83'
+            ?"VAFB SLC 3W, California":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='84'
+            ?"CCSFS SLC 40, Florida":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='85'
+            ?"STLS, Texas":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='86'
+            ?"Kwajalein Atoll, Marshall Islands":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='87'
+            ?"VAFB SLC 4E, California":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='88'
+            ?"KSC LC 39A, Florida":"No-Data"
+        ),
+          mission: item.name,
+          orbit: item.name,
+          launchstatus: item.upcoming
+            ? "Upcoming"
+            : item.success
+            ? "Success"
+            : "Failed",
+          rocket: (
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='b'
+            ?"Falcon 1":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='c'
+            ?"Falcon 9":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='d'
+            ?"Falcon Heavy":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='e'
+            ?"Starship":"No-Data"
+          ),
+        };
+        return data;
+      }):slt==="1"? Data1.map((item, index) => {
+        let data = {
+          id: index + 1,
+          launched: item.date_utc.slice(0,10),
+          location: (
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='83'
+            ?"VAFB SLC 3W, California":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='84'
+            ?"CCSFS SLC 40, Florida":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='85'
+            ?"STLS, Texas":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='86'
+            ?"Kwajalein Atoll, Marshall Islands":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='87'
+            ?"VAFB SLC 4E, California":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='88'
+            ?"KSC LC 39A, Florida":"No-Data"
+        ),
+          mission: item.name,
+          orbit: item.name,
+          launchstatus: item.upcoming
+            ? "Upcoming"
+            : item.success
+            ? "Success"
+            : "Failed",
+          rocket: (
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='b'
+            ?"Falcon 1":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='c'
+            ?"Falcon 9":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='d'
+            ?"Falcon Heavy":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='e'
+            ?"Starship":"No-Data"
+          ),
+        };
+        return data;
+      }):slt==="2"? Data2.map((item, index) => {
+        let data = {
+          id: index + 1,
+          launched: item.date_utc.slice(0,10),
+          location: (
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='83'
+            ?"VAFB SLC 3W, California":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='84'
+            ?"CCSFS SLC 40, Florida":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='85'
+            ?"STLS, Texas":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='86'
+            ?"Kwajalein Atoll, Marshall Islands":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='87'
+            ?"VAFB SLC 4E, California":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='88'
+            ?"KSC LC 39A, Florida":"No-Data"
+        ),
+          mission: item.name,
+          orbit: item.name,
+          launchstatus: item.upcoming
+            ? "Upcoming"
+            : item.success
+            ? "Success"
+            : "Failed",
+          rocket: (
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='b'
+            ?"Falcon 1":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='c'
+            ?"Falcon 9":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='d'
+            ?"Falcon Heavy":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='e'
+            ?"Starship":"No-Data"
+          ),
+        };
+        return data;
+      }):Data3.map((item, index) => {
+        let data = {
+          id: index + 1,
+          launched: item.date_utc.slice(0,10),
+          location: (
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='83'
+            ?"VAFB SLC 3W, California":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='84'
+            ?"CCSFS SLC 40, Florida":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='85'
+            ?"STLS, Texas":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='86'
+            ?"Kwajalein Atoll, Marshall Islands":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='87'
+            ?"VAFB SLC 4E, California":
+            item.launchpad.slice(item.launchpad.length-2,item.launchpad.length)==='88'
+            ?"KSC LC 39A, Florida":"No-Data"
+        ),
+          mission: item.name,
+          orbit: item.name,
+          launchstatus: item.upcoming
+            ? "Upcoming"
+            : item.success
+            ? "Success"
+            : "Failed",
+          rocket: (
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='b'
+            ?"Falcon 1":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='c'
+            ?"Falcon 9":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='d'
+            ?"Falcon Heavy":
+            item.rocket.slice(item.rocket.length-1,item.rocket.length)==='e'
+            ?"Starship":"No-Data"
+          ),
+        };
+        return data;
+      })
+      );
 
       const CustomLoader = () => {
         return (
@@ -164,6 +384,8 @@ const Launch=()=>{
       const [loading,set_loading]=useState(true);
       const [flightData,setflightData]=useState({});
       const [open,setOpen]=useState(false);
+      const [copen,setCopen]=useState(false); //date Range
+
 
       const clickHandler = async (id) => {
         setOpen(true);
@@ -172,6 +394,23 @@ const Launch=()=>{
           set_loading(false);
           setflightData(response);
       };
+
+      /////////////////////////// the below two function are used in date range.
+
+      const clickHandler2= ()=>{
+        setCopen(true);
+        setData0(Data.filter(checkdate));
+        
+      }
+
+      const innerbutton=()=>{
+        setCopen(!copen);
+        setData0(Data.filter(checkdate));
+        // setflag("0");
+        setSlt("4");
+      }
+
+      //////////////////////////////////
 
       const ColorChooser=({param})=>{
         return (
@@ -185,11 +424,31 @@ const Launch=()=>{
 
     return (
         <>
-        <div className='container-fluid mt-3'>
-        <div className='main-heading'>
-         <h1 className='text-center'>SpaceX</h1>
-        </div>
-            <div>
+        <div className='container-fluid mt-3 newbody'>
+          <div className='main-heading'>         
+          <img src={spaceXLogo} id="landingLogo" alt="SpaceX Logo" style={{ margin:"auto",width:"50%"}} />
+          <Link to="/" style={{marginRight:"0"}}>
+              <KeyboardReturnIcon fontSize="large" className="fwd"/>
+            </Link>
+          </div>
+
+          <div className='addons'>
+
+            <button onClick={()=>clickHandler2()} className='DateBox'>Filter By Date</button>      
+
+            <select value={slt} onChange={(event)=>{
+                  setSlt(event.target.value); }}  className="SelectBox">
+                  <option value='0' className='options'>All</option>
+                  <option value='1' className='options'>Upcoming</option>
+                  <option value='2' className='options'>Success</option>
+                  <option value='3' className='options'>Failure</option>
+                  <option value='4' className='options' disabled='true'>Till-Date</option>
+
+              </select>
+
+          </div>
+
+            <div className='container-ji'>
                 <DataGrid
                     disableColumnMenu
                     hideFooterSelectedRowCount
@@ -197,7 +456,7 @@ const Launch=()=>{
                     autoWidth
                     rows={rows}
                     columns={columns}
-                    pageSize={9}
+                    pageSize={6}
                     components={{
                       LoadingOverlay: CustomLoader,
                      }}
@@ -206,6 +465,28 @@ const Launch=()=>{
                     className="datagrid"
                 />
             </div>
+
+            <div>   
+                <Modal
+                  open={copen}
+                  onClose={()=>
+                  setCopen(!copen)} >
+                  {(<Box sx={{...styles,width:400}}>
+
+                    <DateRange 
+                    date={new Date()}
+                    onChange={item=>setRange([item.selection])}
+                    editableDateInputs={true}
+                    moveRangeOnFirstSelection={false}
+                    ranges={range}
+                    months={1}
+                    direction="horizontal"
+                    // className="calendarElement"
+                    />
+                    <Button variant="contained" onClick={()=>{innerbutton()}} style={{display:"flex", margin:"auto"}} >Done</Button>
+
+                  </Box>)}</Modal>
+              </div> 
 
             <div>
                     <Modal
@@ -299,7 +580,9 @@ const Launch=()=>{
                         <a href={flightData.links.presskit}><Button variant="contained" ><DownloadIcon/>About</Button></a>
                       </Stack>  
                       <Stack spacing={2} direction="row" style={{justifyContent:"center" ,marginTop:"10px"}}>
-                        <a href={flightData.links.webcast} target="_kahibhi"> <YouTubeIcon fontSize='large' className='ytubee'/></a>
+                      <a href={flightData.links.webcast} target="_kahibhi">
+                              <YouTubeIcon fontSize='large' className='ytubee'/>
+                      </a>
                       </Stack>                   
                       </Box>
                       )}
