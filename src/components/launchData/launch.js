@@ -389,8 +389,15 @@ const Launch=()=>{
 
       const clickHandler = async (id) => {
         setOpen(true);
-        let response=Data[id-1];
-          console.log(response);
+        // let response=Data[id-1];
+        let response =undefined;
+        {slt==="0"?response=Data[id-1]
+        :slt==="4"?response=Data0[id-1]
+        :slt==="1"?response=Data1[id-1]
+        :slt==="2"?response=Data2[id-1]
+        :response=Data3[id-1];
+      }
+          // console.log(response);
           set_loading(false);
           setflightData(response);
       };
@@ -518,11 +525,6 @@ const Launch=()=>{
                               )
                             }</p>
                           </div>
-                          {/* <p className='top-p'>{
-                            flightData.upcoming?"Upcoming":
-                            flightData.success?"Success":
-                            "Failed"
-                          }</p> */}
 
                           <p className='top-p'>
                             {
